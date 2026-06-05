@@ -1,0 +1,26 @@
+# === Odin Specific ===
+# Archivos ejecutables generados por el compilador (sin extensión en Linux/macOS)
+# Si tus ejecutables principales tienen nombres fijos, puedes agregarlos explícitamente abajo.
+*.bin
+*.exe
+
+# Colection of temporary files and Odin cache
+.odin-cache/
+*.build_errors
+
+# === VS Code / Odin Language Server (OLS) ===
+.vscode/
+.ols/
+ols.json
+*.log
+
+# === System files / Editors ===
+.DS_Store
+Thumbs.db
+.idea/
+.visualstudio/
+*.suo
+*.user
+
+# === Common backup and temporary files / trash folders ===
+temporal/
