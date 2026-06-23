@@ -536,3 +536,24 @@ get_gamma_for_blue_channel :: proc(
         return {}, .FieldNotAvailable
     }
 }
+
+get_intent :: proc(
+    information_header: BMP_Information_Header,
+) -> (intent: u32, error: BMP_Error){
+    switch ih in information_header {
+    case BMP_Info_Core_Header, 
+    BMP_Info_OS2_2X_Header, 
+    BMP_Info_OS2_2X_Short_Header, 
+    BMP_Info_Header,
+    BMP_Info_V2_Header,
+    BMP_Info_V3_Header,
+    BMP_Info_V4_Header:
+        return {}, .FieldNotAvailable 
+        
+    case BMP_Info_V5_Header:
+        return ih.intent, .None
+    
+    case:
+        return {}, .FieldNotAvailable
+    }
+}
