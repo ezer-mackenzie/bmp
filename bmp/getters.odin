@@ -446,3 +446,24 @@ get_color_space_type:: proc(information_header: BMP_Information_Header)-> (color
         return 0, .FieldNotAvailable
     }
 }
+
+get_color_space_endpoints:: proc(information_header: BMP_Information_Header)-> (color_space_endpoints: CIEXYZTRIPLE, error: BMP_Error){
+    switch ih in information_header {
+    case BMP_Info_Core_Header, 
+    BMP_Info_OS2_2X_Header, 
+    BMP_Info_OS2_2X_Short_Header, 
+    BMP_Info_Header,
+    BMP_Info_V2_Header,
+    BMP_Info_V3_Header:
+        return {}, .FieldNotAvailable 
+        
+    case BMP_Info_V4_Header:
+        return ih.color_space_endpoints, .None
+
+    case BMP_Info_V5_Header:
+        return ih.color_space_endpoints, .None
+    
+    case:
+        return {}, .FieldNotAvailable
+    }
+}
