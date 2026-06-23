@@ -1,12 +1,15 @@
 package bmp
 
 import log "core:log"
+
 import reader "../reader"
 
-parse_palette :: proc (r: ^reader.Reader, header: BMP_Header, information_header: BMP_Information_Header) -> (palette: []Palette, error: BMP_Error) {
+parse_palette :: proc (
+    r: ^reader.Reader, header: BMP_Header, information_header: BMP_Information_Header
+) -> (palette: []Palette, error: BMP_Error) {
     palette = make([]Palette, 0)
 
-    information_header_size := get_information_header_size(information_header)
+    information_header_size := get_size(information_header)
     bits_per_pixel := get_bits_per_pixel(information_header)
 
     if int(bits_per_pixel) > 8 {
