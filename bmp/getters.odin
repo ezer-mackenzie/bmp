@@ -403,8 +403,15 @@ get_blue_channel_bitmask:: proc(information_header: BMP_Information_Header) -> (
     }
 }
 
-get_alpha_mask:: proc(information_header: BMP_Information_Header)-> (alpha_channel_bitmask: u32, error: BMP_Error){
-    #partial switch ih in information_header {
+get_alpha_channel_bitmask:: proc(information_header: BMP_Information_Header)-> (alpha_channel_bitmask: u32, error: BMP_Error){
+    switch ih in information_header {
+    case BMP_Info_Core_Header, 
+    BMP_Info_OS2_2X_Header, 
+    BMP_Info_OS2_2X_Short_Header, 
+    BMP_Info_Header,
+    BMP_Info_V2_Header:
+        return 0, .FieldNotAvailable 
+
     case BMP_Info_V3_Header:
         return ih.alpha_channel_bitmask, .None
 
@@ -413,7 +420,8 @@ get_alpha_mask:: proc(information_header: BMP_Information_Header)-> (alpha_chann
 
     case BMP_Info_V5_Header:
         return ih.alpha_channel_bitmask, .None
+    
+    case:
+        return 0, .FieldNotAvailable
     }
-
-    return 0, .FieldNotAvailable
 }
