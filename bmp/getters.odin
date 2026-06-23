@@ -326,9 +326,16 @@ get_important_colors:: proc(information_header: BMP_Information_Header) -> (impo
     }
 }
 
-get_red_mask:: proc( information_header: BMP_Information_Header)-> (red_channel_bitmask: u32, error: BMP_Error){
+get_red_channel_bitmask:: proc(
+    information_header: BMP_Information_Header
+) -> (red_channel_bitmask: u32, error: BMP_Error){
+    switch ih in information_header {
+    case BMP_Info_Core_Header, 
+    BMP_Info_OS2_2X_Header, 
+    BMP_Info_OS2_2X_Short_Header, 
+    BMP_Info_Header:
+        return 0, .FieldNotAvailable 
 
-    #partial switch ih in information_header {
     case BMP_Info_V2_Header:
         return ih.red_channel_bitmask, .None
 
@@ -340,9 +347,10 @@ get_red_mask:: proc( information_header: BMP_Information_Header)-> (red_channel_
 
     case BMP_Info_V5_Header:
         return ih.red_channel_bitmask, .None
+    
+    case:
+        return 0, .FieldNotAvailable
     }
-
-    return 0, .FieldNotAvailable
 }
 
 get_green_mask:: proc(information_header: BMP_Information_Header) -> (green_channel_bitmask: u32, error: BMP_Error){
