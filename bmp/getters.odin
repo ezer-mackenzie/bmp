@@ -1,5 +1,36 @@
 package bmp
 
+get_size:: proc(information_header: BMP_Information_Header) -> (size: u32){
+    switch ih in information_header {
+    case BMP_Info_Core_Header:
+        return ih.size
+
+    case BMP_Info_OS2_2X_Header:
+        return ih.size
+
+    case BMP_Info_OS2_2X_Short_Header:
+        return ih.size
+
+    case BMP_Info_Header:
+        return ih.size
+
+    case BMP_Info_V2_Header:
+        return ih.size
+
+    case BMP_Info_V3_Header:
+        return ih.size
+
+    case BMP_Info_V4_Header:
+        return ih.size
+
+    case BMP_Info_V5_Header:
+        return ih.size
+
+    case:
+        return 0
+    }
+}
+
 get_width :: proc(information_header: BMP_Information_Header) -> (version: i32) {
     switch ih in information_header {
     case BMP_Info_Core_Header:
