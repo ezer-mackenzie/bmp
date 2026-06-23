@@ -599,3 +599,24 @@ get_icc_profile_size :: proc(
         return {}, .FieldNotAvailable
     }
 }
+
+get_reserved :: proc(
+    information_header: BMP_Information_Header,
+) -> (reserved: u32, error: BMP_Error){
+    switch ih in information_header {
+    case BMP_Info_Core_Header, 
+    BMP_Info_OS2_2X_Header, 
+    BMP_Info_OS2_2X_Short_Header, 
+    BMP_Info_Header,
+    BMP_Info_V2_Header,
+    BMP_Info_V3_Header,
+    BMP_Info_V4_Header:
+        return {}, .FieldNotAvailable 
+        
+    case BMP_Info_V5_Header:
+        return ih.reserved, .None
+    
+    case:
+        return {}, .FieldNotAvailable
+    }
+}
