@@ -19,9 +19,9 @@ main :: proc (){
     // Clean up the logger when the program exits
     defer log.destroy_console_logger(logger)
 
-    reader, reader_error := reader.reader_initialize("assets/UlrichS.bmp");
+    reader, reader_error := reader.reader_initialize("assets/test/file124bit.bmp");
     
-    bmp, bmp_error := bmp.bmp_parser(&reader);
+    bmp, bmp_error := bmp.parser_bmp(&reader);
 
     log.info("BMP reader initialized");
     log.info("First byte: %d", reader.position);
