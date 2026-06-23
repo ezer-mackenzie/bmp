@@ -214,36 +214,6 @@ get_image_size :: proc(information_header: BMP_Information_Header) -> (image_siz
     return 0, .InvalidInformationHeader
 }
 
-get_information_header_size :: proc(information_header: BMP_Information_Header) -> u32 {
-    switch ih in information_header {
-    case BMP_Info_Core_Header:
-        return ih.size
-
-    case BMP_Info_OS2_2X_Header:
-        return ih.size
-
-    case BMP_Info_OS2_2X_Short_Header:
-        return ih.size
-
-    case BMP_Info_Header:
-        return ih.size
-
-    case BMP_Info_V2_Header:
-        return ih.size
-
-    case BMP_Info_V3_Header:
-        return ih.size
-
-    case BMP_Info_V4_Header:
-        return ih.size
-
-    case BMP_Info_V5_Header:
-        return ih.size
-    }
-
-    return 0
-}
-
 get_red_mask:: proc( information_header: BMP_Information_Header)-> (red_channel_bitmask: u32, error: BMP_Error){
 
     #partial switch ih in information_header {
