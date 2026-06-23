@@ -156,10 +156,7 @@ get_compression:: proc(
     information_header: BMP_Information_Header,
 ) -> (compression: u32, error: BMP_Error) {
     switch ih in information_header {
-    case BMP_Info_Core_Header:
-        return 0, .FieldNotAvailable
-
-    case BMP_Info_OS2_2X_Short_Header:
+    case BMP_Info_Core_Header, BMP_Info_OS2_2X_Short_Header:
         return 0, .FieldNotAvailable
 
     case BMP_Info_OS2_2X_Header:
@@ -179,9 +176,10 @@ get_compression:: proc(
 
     case BMP_Info_V5_Header:
         return ih.compression, .None
+    
+    case:
+        return 0, .FieldNotAvailable
     }
-
-    return 0, .InvalidInformationHeader
 }
 
 get_image_size :: proc(information_header: BMP_Information_Header) -> (image_size: u32, error: BMP_Error){
