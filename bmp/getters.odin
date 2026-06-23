@@ -242,6 +242,34 @@ get_x_pixels_per_meter:: proc(information_header: BMP_Information_Header) -> (x_
     }
 }
 
+get_y_pixels_per_meter:: proc(information_header: BMP_Information_Header) -> (x_pixels_per_meter: i32){
+    switch ih in information_header {
+    case BMP_Info_Core_Header, BMP_Info_OS2_2X_Short_Header:
+        return 0
+
+    case BMP_Info_OS2_2X_Header:
+        return ih.y_pixels_per_meter
+
+    case BMP_Info_Header:
+        return ih.y_pixels_per_meter
+
+    case BMP_Info_V2_Header:
+        return ih.y_pixels_per_meter
+
+    case BMP_Info_V3_Header:
+        return ih.y_pixels_per_meter
+
+    case BMP_Info_V4_Header:
+        return ih.y_pixels_per_meter
+
+    case BMP_Info_V5_Header:
+        return ih.y_pixels_per_meter
+    
+    case:
+        return 0
+    }
+}
+
 get_red_mask:: proc( information_header: BMP_Information_Header)-> (red_channel_bitmask: u32, error: BMP_Error){
 
     #partial switch ih in information_header {
