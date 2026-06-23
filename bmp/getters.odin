@@ -91,6 +91,37 @@ get_height :: proc(information_header: BMP_Information_Header) -> i32 {
     return 0
 }
 
+get_planes:: proc(information_header: BMP_Information_Header) -> (planes: u16){
+    switch ih in information_header {
+    case BMP_Info_Core_Header:
+        return ih.planes
+
+    case BMP_Info_OS2_2X_Header:
+        return ih.planes
+
+    case BMP_Info_OS2_2X_Short_Header:
+        return ih.planes
+
+    case BMP_Info_Header:
+        return ih.planes
+
+    case BMP_Info_V2_Header:
+        return ih.planes
+
+    case BMP_Info_V3_Header:
+        return ih.planes
+
+    case BMP_Info_V4_Header:
+        return ih.planes
+
+    case BMP_Info_V5_Header:
+        return ih.planes
+    
+    case:
+        return 0
+    }
+}
+
 get_bits_per_pixel :: proc(information_header: BMP_Information_Header) -> u16 {
     switch ih in information_header {
     case BMP_Info_Core_Header:
