@@ -6,7 +6,7 @@ import vmem "core:mem/virtual"
 
 // the `reader_init` function initializes a new Reader with the given data.
 reader_initialize :: proc (path_file: string) -> (reader: Reader, error: union{Reader_Error, vmem.Map_File_Error}) {
-    log.info("Initializing BMP reader with file: %s", path_file)
+    log.infof("Initializing BMP reader with file: %s", path_file)
 
     // Attempt to map the file into memory and create a Reader struct with the mapped data. If mapping fails, return an error.
     data := reader_handle_source(path_file) or_return
@@ -22,7 +22,7 @@ reader_initialize :: proc (path_file: string) -> (reader: Reader, error: union{R
 // It returns the mapped data as a byte slice and an error code (0 for success, 1 for failure). 
 // If the file cannot be mapped, it prints an error message to the console.
 reader_handle_source:: proc (path_file: string) -> (data: []byte, error: vmem.Map_File_Error) {
-    log.info("Mapping file: %s", path_file)
+    log.infof("Mapping file: %s", path_file)
     
     return vmem.map_file_from_path(path_file, {.Read})
 }
