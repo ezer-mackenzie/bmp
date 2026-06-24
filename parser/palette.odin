@@ -19,20 +19,20 @@ parse_palette :: proc (
     palette_data_start := 14 + int(information_header_size)
     palette_size := int(header.offset_bits) - palette_data_start
 
-    log.info("Calculated palette size: %d bytes", palette_size)
+    log.infof("Calculated palette size: %d bytes", palette_size)
 
     if palette_size <= 0 {
         return palette, .None
     }
 
     if palette_data_start < 0 || palette_data_start > len(r.data) {
-        log.error("Invalid palette data start offset: %d", palette_data_start)
+        log.errorf("Invalid palette data start offset: %d", palette_data_start)
         return {}, .InvalidHeader
     }
 
     palette_data_end := palette_data_start + palette_size
     if palette_data_end > len(r.data) {
-        log.error("Palette data truncated: expected %d bytes but only %d available", palette_size, len(r.data) - palette_data_start)
+        log.errorf("Palette data truncated: expected %d bytes but only %d available", palette_size, len(r.data) - palette_data_start)
         return {}, .InvalidHeader
     }
 
@@ -57,6 +57,6 @@ parse_palette :: proc (
         palette[i] = Palette{r.data[offset + 0], r.data[offset + 1], r.data[offset + 2], 0}
     }
 
-    log.info("Palette parsed with %d entries", palette_entries)
+    log.infof("Palette parsed with %d entries", palette_entries)
     return palette, .None
 }

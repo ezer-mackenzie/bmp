@@ -53,7 +53,7 @@ get_information_header:: proc(
         information_header = (transmute(^BMP_Info_V5_Header)(&r.data[14]))^
 
     case .Invalid:
-        log.error("Unsupported Version: %d", version)
+        log.errorf("Unsupported Version: %d", version)
         return {}, .InvalidHeader
     }
 
@@ -76,7 +76,7 @@ validate_information_header:: proc(information_header: BMP_Information_Header) -
     validate_planes(planes) or_return
     validate_dimensions(width, height) or_return
 
-    log.info("Information header: %d", information_header)
+    log.infof("Information header: %#v", information_header)
 
     return .None
 }

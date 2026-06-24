@@ -17,7 +17,7 @@ validate_signature :: proc (header: BMP_Header) -> (error: BMP_Error) {
 // the `validate_compression` function checks if the BMP file uses a supported compression type (only 0 - BI_RGB is supported in this basic reader)
 validate_compression :: proc (compression: u32) -> (error: BMP_Error) {
     if compression != 0 {
-        log.warn("El BMP usa compresión tipo %d. Este lector básico espera 0 (sin compresión).", compression)
+        log.warnf("El BMP usa compresión tipo %d. Este lector básico espera 0 (sin compresión).", compression)
         return .UnsupportedCompression
     }
     
@@ -27,13 +27,13 @@ validate_compression :: proc (compression: u32) -> (error: BMP_Error) {
 // the `validate_offset_bits` function checks if the header of BMP has a valid offset bits
 validate_offset_bits :: proc (header: BMP_Header, data_length: int) -> (error: BMP_Error) {
     if header.offset_bits < 14 {
-        log.error("El offset a los datos de píxeles (%d bytes) es menor que el tamaño mínimo del encabezado (14 bytes).", header.offset_bits)
+        log.errorf("El offset a los datos de píxeles (%d bytes) es menor que el tamaño mínimo del encabezado (14 bytes).", header.offset_bits)
         return .InvalidPixelOffset
     }
 
 
     if int(header.offset_bits) >= data_length {
-        log.error("El offset a los datos de píxeles (%d bytes) excede el tamaño total de los datos disponibles (%d bytes).", header.offset_bits, data_length)
+        log.errorf("El offset a los datos de píxeles (%d bytes) excede el tamaño total de los datos disponibles (%d bytes).", header.offset_bits, data_length)
         return .InvalidPixelOffset
     }
 
@@ -42,7 +42,7 @@ validate_offset_bits :: proc (header: BMP_Header, data_length: int) -> (error: B
 
 validate_planes :: proc (planes: u16) -> (error: BMP_Error) {
     if planes != 1 {
-        log.error("El número de planos debe ser 1, pero se encontró %d.", planes)
+        log.errorf("El número de planos debe ser 1, pero se encontró %d.", planes)
         return .InvalidHeader
     }
 
@@ -53,7 +53,7 @@ validate_planes :: proc (planes: u16) -> (error: BMP_Error) {
 // the `validate_dimensions` function checks if width and height are higher than 0 if not return error
 validate_dimensions :: proc (width: i32, height: i32) -> (error: BMP_Error) {
     if width <= 0 || height == 0 {
-        log.error("Las dimensiones de la imagen no son válidas. Ancho: %d, Alto: %d.", width, height)
+        log.errorf("Las dimensiones de la imagen no son válidas. Ancho: %d, Alto: %d.", width, height)
         return .InvalidDimensions
     }
 
@@ -66,11 +66,11 @@ validate_dimensions :: proc (width: i32, height: i32) -> (error: BMP_Error) {
 validate_bits_per_pixel :: proc(bits_per_pixel: u16) -> (error: BMP_Error) {
     switch bits_per_pixel {
     case 1, 2, 4, 8, 16, 24, 32:
-            log.info("BMP has a valid bits per pixel: %d", bits_per_pixel)
+            log.infof("BMP has a valid bits per pixel: %d", bits_per_pixel)
             return .None
 
     case: 
-            log.error("Unsupported bits per pixel: %d", bits_per_pixel)
+            log.errorf("Unsupported bits per pixel: %d", bits_per_pixel)
             return .UnsupportedBitDepth
     }
 }
@@ -82,7 +82,7 @@ validate_header_image_size :: proc (offset_bits: u32, image_size: u32, data_leng
     actual_pixel_data_size := data_length - int(offset_bits)
 
     if expected_pixel_data_size != 0 && expected_pixel_data_size > actual_pixel_data_size {
-        log.warn("El tamaño de los datos de píxeles declarado (%d bytes) no coincide con el tamaño real disponible (%d bytes).", expected_pixel_data_size, actual_pixel_data_size)
+        log.warnf("El tamaño de los datos de píxeles declarado (%d bytes) no coincide con el tamaño real disponible (%d bytes).", expected_pixel_data_size, actual_pixel_data_size)
         return .InvalidImageSize
     }
 

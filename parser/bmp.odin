@@ -6,7 +6,7 @@ import reader "../reader"
 
 
 parser_bmp :: proc (r: ^reader.Reader) -> (bmp: BMP, error: BMP_Error) {
-    log.info("Initializing BMP reader with data of length %d bytes", len(r.data));
+    log.infof("Initializing BMP reader with data of length %d bytes", len(r.data));
 
     header := parse_header(r) or_return
     information_header := parse_information_header(r) or_return
@@ -23,7 +23,7 @@ parser_bmp :: proc (r: ^reader.Reader) -> (bmp: BMP, error: BMP_Error) {
 
     palette, err_palette := parse_palette(r, header, information_header)
 
-    log.info("Calculated palette size: %d bytes", palette_size)
+    log.infof("Calculated palette size: %d bytes", palette_size)
 
     bmp = BMP{
         header,
@@ -33,9 +33,9 @@ parser_bmp :: proc (r: ^reader.Reader) -> (bmp: BMP, error: BMP_Error) {
         pixel_data,
     };
 
-    log.info("Offset to pixel data: %d bytes is equals to %d", header.offset_bits, len(r.data) - int(header.offset_bits));
-    log.info("Offset express validation value: %d", len(r.data) - int(header.offset_bits));
-    log.info("File size length: %d bytes equals to %d", header.file_size, len(r.data));
+    log.infof("Offset to pixel data: %d bytes is equals to %d", header.offset_bits, len(r.data) - int(header.offset_bits));
+    log.infof("Offset express validation value: %d", len(r.data) - int(header.offset_bits));
+    log.infof("File size length: %d bytes equals to %d", header.file_size, len(r.data));
     log.info("BMP initialized successfully.");
 
     return bmp, BMP_Error.None;

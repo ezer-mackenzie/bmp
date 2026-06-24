@@ -16,7 +16,7 @@ parse_header :: proc (r: ^reader.Reader) -> (header: BMP_Header, error: BMP_Erro
 
     validate_signature(header) or_return
 
-    log.info("File header: %d", header);
+    log.infof("File header: %#v", header);
 
     return header, BMP_Error.None;
 }

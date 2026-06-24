@@ -25,7 +25,7 @@ get_version :: proc(size: u32) -> (version: BMP_Version, error: BMP_Error) {
     }
 
     if version == .Invalid {
-        log.error("unsupported BMP version size=%d", size)
+        log.errorf("unsupported BMP version size=%d", size)
         return .Invalid, BMP_Error.UnsupportedVersion
     }
 
