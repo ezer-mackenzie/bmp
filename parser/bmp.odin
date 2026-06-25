@@ -21,7 +21,7 @@ parser_bmp :: proc (r: ^reader.Reader) -> (bmp: BMP, error: BMP_Error) {
     pixel_data := r.data[header.offset_bits:]
     palette_size := int(header.offset_bits) - (14 + int(size))
 
-    palette, err_palette := parse_palette(r, header, information_header)
+    palette := parse_palette(r, header, information_header) or_return
 
     log.infof("Calculated palette size: %d bytes", palette_size)
 
