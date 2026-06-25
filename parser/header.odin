@@ -12,7 +12,7 @@ parse_header :: proc (r: ^reader.Reader) -> (header: BMP_Header, error: BMP_Erro
 
     if len(r.data) < 14 do return {}, BMP_Error.InvalidHeader;
 
-    header = (transmute(^BMP_Header)(&r.data[0]))^;
+    header = (cast(^BMP_Header)(&r.data[0]))^;
 
     validate_signature(header) or_return
 

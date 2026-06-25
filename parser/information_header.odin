@@ -14,7 +14,7 @@ parse_information_header :: proc (r: ^reader.Reader) -> (information_header: BMP
         return {}, BMP_Error.InvalidHeader
     }
 
-    size := (transmute(^u32)(&r.data[14]))^
+    size := (cast(^u32)(&r.data[14]))^
     version := get_version(size) or_return
 
     information_header = get_information_header(r, version) or_return
@@ -29,28 +29,28 @@ get_information_header:: proc(
 ) -> (information_header: BMP_Information_Header, error: BMP_Error){
     switch version {
     case .Core:
-        information_header = (transmute(^BMP_Info_Core_Header)(&r.data[14]))^
+        information_header = (cast(^BMP_Info_Core_Header)(&r.data[14]))^
 
     case .OS2_2X_Short:
-        information_header = (transmute(^BMP_Info_OS2_2X_Short_Header)(&r.data[14]))^
+        information_header = (cast(^BMP_Info_OS2_2X_Short_Header)(&r.data[14]))^
 
     case .Info:
-        information_header = (transmute(^BMP_Info_Header)(&r.data[14]))^
+        information_header = (cast(^BMP_Info_Header)(&r.data[14]))^
 
     case .V2:
-        information_header = (transmute(^BMP_Info_V2_Header)(&r.data[14]))^
+        information_header = (cast(^BMP_Info_V2_Header)(&r.data[14]))^
 
     case .V3:
-        information_header = (transmute(^BMP_Info_V3_Header)(&r.data[14]))^
+        information_header = (cast(^BMP_Info_V3_Header)(&r.data[14]))^
 
     case .OS2_2X:
-        information_header = (transmute(^BMP_Info_OS2_2X_Header)(&r.data[14]))^
+        information_header = (cast(^BMP_Info_OS2_2X_Header)(&r.data[14]))^
 
     case .V4:
-        information_header = (transmute(^BMP_Info_V4_Header)(&r.data[14]))^
+        information_header = (cast(^BMP_Info_V4_Header)(&r.data[14]))^
 
     case .V5:
-        information_header = (transmute(^BMP_Info_V5_Header)(&r.data[14]))^
+        information_header = (cast(^BMP_Info_V5_Header)(&r.data[14]))^
 
     case .Invalid:
         log.errorf("Unsupported Version: %d", version)

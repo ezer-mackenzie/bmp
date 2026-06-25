@@ -1,6 +1,7 @@
 package parser
 
 import log "core:log"
+import mem "core:mem"
 
 import reader "../reader"
 
@@ -47,7 +48,8 @@ parse_palette :: proc (
     }
 
     if palette_entry_size == 4 {
-        palette = transmute([]Palette)r.data[palette_data_start:palette_data_end]
+        bytes_slice := r.data[palette_data_start:palette_data_end]
+        palette = mem.slice_data_cast([]Palette, bytes_slice)
         return palette, .None
     }
 
