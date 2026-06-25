@@ -29,7 +29,7 @@ get_version :: proc(size: u32) -> (version: BMP_Version, error: BMP_Error) {
         return .Invalid, BMP_Error.UnsupportedVersion
     }
 
-    log.info("BMP version: %v", version)
+    log.infof("BMP version: %s", version)
     return version, nil
 }
 
